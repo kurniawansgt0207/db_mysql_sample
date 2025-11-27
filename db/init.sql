@@ -1,3 +1,5 @@
+GRANT ALL PRIVILEGES ON db_data.* TO 'userapp'@'%';
+
 DROP TABLE IF EXISTS `barang`;
 
 CREATE TABLE `barang` (
