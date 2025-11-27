@@ -15,6 +15,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create folder secrets
+        run: mkdir -p secrets
+
+      - name: Generate secret files
+        run: |
+          echo "${{ secrets.MYSQL_ROOT_PASSWORD }}" > secrets/MYSQL_ROOT_PASSWORD
+          echo "${{ secrets.MYSQL_DATABASE }}" > secrets/MYSQL_DATABASE
+          echo "${{ secrets.MYSQL_USER }}" > secrets/MYSQL_USER
+          echo "${{ secrets.MYSQL_PASSWORD }}" > secrets/MYSQL_PASSWORD
+
       - name: Build Docker image
         run: |
           docker build -t db-mysql-sample:${{ github.sha }} .
