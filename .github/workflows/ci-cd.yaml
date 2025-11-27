@@ -10,6 +10,7 @@ jobs:
   ci:
     name: CI - Build MySQL Docker Image
     runs-on: ubuntu-latest
+    environment: MYSQL_ROOT_PASSWORD
 
     steps:
       - name: Checkout repository
