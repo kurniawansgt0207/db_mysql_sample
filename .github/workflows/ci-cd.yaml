@@ -1,0 +1,50 @@
+name: CI/CD for db_mysql_sample
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    name: CI - Build MySQL Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t db-mysql-sample:${{ github.sha }} .
+
+  cd:
+    name: CD - Build & Push MySQL Image to GHCR
+    needs: ci
+    runs-on: ubuntu-latest
+
+    # perlu permission packages:write untuk push ke GHCR
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/db_mysql_sample:latest
+            ghcr.io/${{ github.repository_owner }}/db_mysql_sample:${{ github.sha }}
