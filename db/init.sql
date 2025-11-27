@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS db_data;
 
-CREATE USER 'userapp'@'%' IDENTIFIED BY 'userapp123';
+CREATE USER 'userapp'@'%' IDENTIFIED WITH mysql_native_password BY 'userapp123';
 
 GRANT ALL PRIVILEGES ON db_data.* TO 'userapp'@'%';
 
