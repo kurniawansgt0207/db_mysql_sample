@@ -1,4 +1,12 @@
+CREATE DATABASE IF NOT EXISTS db_data;
+
+CREATE USER 'userapp'@'%' IDENTIFIED BY 'userapp123';
+
 GRANT ALL PRIVILEGES ON db_data.* TO 'userapp'@'%';
+
+FLUSH PRIVILEGES;
+
+USE db_data;
 
 DROP TABLE IF EXISTS `barang`;
 
